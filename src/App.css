@@ -277,6 +277,19 @@
   background: linear-gradient(135deg, rgba(232, 246, 240, 1), rgba(255, 255, 255, 0.96));
 }
 
+.copy-prompt-btn {
+  border-color: rgba(92, 67, 39, 0.22);
+}
+
+.copy-prompt-btn:hover:not(:disabled) {
+  background: #fffdf8;
+}
+
+.copy-prompt-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .editor-wrapper {
   position: relative;
   min-height: 220px;

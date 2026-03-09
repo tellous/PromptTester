@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import type { Editor } from "@tiptap/react";
 import { detectSectionIds, detectSections } from "./detectSections";
 import {
@@ -90,6 +90,25 @@ export default function App() {
     setCodeRevision((revision) => revision + 1);
   }, []);
 
+  const [copied, setCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    };
+  }, []);
+
+  const handleCopyPrompt = useCallback(() => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+      copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // Clipboard API unavailable or permission denied — silently ignore
+    });
+  }, [text]);
+
   const toggleLabel =
     view === "code"
       ? "Switch to Formatted View"
@@ -111,6 +130,15 @@ export default function App() {
         </div>
         <RecommendationPills unusedSections={unused} onInsert={handleInsert} />
         <div className="editor-mode-bar affix-toggle-bar">
+          <button
+            type="button"
+            className="mode-toggle-btn copy-prompt-btn"
+            onClick={handleCopyPrompt}
+            aria-label="Copy prompt"
+            disabled={!text}
+          >
+            {copied ? "Copied!" : "Copy Prompt"}
+          </button>
           <button
             type="button"
             className="mode-toggle-btn example-toggle-btn"
