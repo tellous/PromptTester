@@ -926,10 +926,22 @@
   .format-toolbar {
     padding: 0.54rem 0.58rem 0.58rem;
     border-radius: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .format-toolbar::-webkit-scrollbar {
+    display: none;
   }
 
   .format-toolbar-header {
-    margin-bottom: 0.34rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
   }
 
   .format-toolbar-title {
@@ -938,12 +950,15 @@
 
   .format-toolbar-actions {
     gap: 0.32rem;
+    flex-wrap: nowrap;
   }
 
   .format-btn {
     min-height: 1.9rem;
     padding: 0.3rem 0.54rem;
     font-size: 0.72rem;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .rec-header {
